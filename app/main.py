@@ -24,6 +24,12 @@ def health() -> dict:
     return {"status": "ok", "mode": settings.openfda_mode}
 
 
+@app.get("/version")
+def version() -> dict:
+    """Current API version."""
+    return {"version": "1.1.0"}
+
+
 @app.get("/products")
 def products() -> list[Product]:
     """The Acme MedTech product portfolio."""
