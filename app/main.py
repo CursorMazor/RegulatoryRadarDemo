@@ -14,7 +14,7 @@ from app.models import Clearance, Product, Recall, Update
 app = FastAPI(
     title="Regulatory Radar",
     description="What is happening in the regulatory world, and what does it mean for our products?",
-    version="0.1.0",
+    version="1.1.0",
 )
 
 
@@ -27,7 +27,7 @@ def health() -> dict:
 @app.get("/version")
 def version() -> dict:
     """Current API version."""
-    return {"version": "1.1.0"}
+    return {"version": app.version}
 
 
 @app.get("/products")
