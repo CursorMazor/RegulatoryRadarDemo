@@ -13,6 +13,12 @@ def test_health_reports_fixture_mode():
     assert response.json() == {"status": "ok", "mode": "fixture"}
 
 
+def test_version_returns_current_version():
+    response = client.get("/version")
+    assert response.status_code == 200
+    assert response.json() == {"version": "1.1.0"}
+
+
 def test_products_list_and_detail():
     items = client.get("/products").json()
     assert len(items) == 6
@@ -44,7 +50,9 @@ def test_clearances_query_and_limit():
     assert all("pacemaker" in r["device_name"].lower() for r in results)
 
 
-def test_recalls_since_keeps_only_newer_recalls():
+def test_recalls_query_with_and_without_since():
+    all_hits = client.get("/recalls", params={"query": "pacemaker", "limit": 50}).json()
+    assert all("pacemaker" in r["product_description"].lower() for r in all_hits)
     params = {"query": "pacemaker", "since": "2017-01-01", "limit": 50}
     results = client.get("/recalls", params=params).json()
     assert len(results) == 6
