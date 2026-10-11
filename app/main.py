@@ -24,6 +24,17 @@ def health() -> dict:
     return {"status": "ok", "mode": settings.openfda_mode}
 
 
+@app.get("/health/details")
+def health_details() -> dict:
+    """Liveness check with portfolio and update counts."""
+    return {
+        "status": "ok",
+        "mode": settings.openfda_mode,
+        "products": len(portfolio.load_products()),
+        "updates": len(portfolio.load_updates()),
+    }
+
+
 @app.get("/version")
 def version() -> dict:
     """Current API version."""
